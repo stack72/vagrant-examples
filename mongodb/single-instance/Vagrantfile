@@ -1,0 +1,11 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "Ubuntu precise 64 VMWare"
+    config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+    config.vm.provision "shell", inline: "sudo apt-get update -y"
+    config.vm.provision "shell", inline: "echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list"
+    config.vm.provision "shell", inline: "sudo apt-get install mongodb-10gen"
+    config.vm.provision "shell", inline: "sudo service mongodb start"
+end
