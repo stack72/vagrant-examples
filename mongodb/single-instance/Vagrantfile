@@ -4,8 +4,12 @@
 Vagrant.configure("2") do |config|
     config.vm.box = "Ubuntu precise 64 VMWare"
     config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
-    config.vm.provision "shell", inline: "sudo apt-get update -y"
-    config.vm.provision "shell", inline: "echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list"
-    config.vm.provision "shell", inline: "sudo apt-get install mongodb-10gen"
-    config.vm.provision "shell", inline: "sudo service mongodb start"
+    config.vm.define :mongo01 do |mongo01|  
+		mongo01.vm.network :private_network, ip: "192.168.33.101"
+		mongo01.vm.network :forwarded_port, host: 25017, guest: 25017
+	    mongo01.vm.provision "shell", inline: "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10"
+	    mongo01.vm.provision "shell", inline: "echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list"
+	    mongo01.vm.provision "shell", inline: "sudo apt-get update"
+	    mongo01.vm.provision "shell", inline: "sudo apt-get install mongodb-10gen"
+    end
 end
