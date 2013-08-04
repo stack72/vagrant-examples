@@ -7,31 +7,31 @@ Vagrant::Config.run do |config|
     
     config.vm.define "es1" do |es1|
         es1.vm.network :hostonly, "192.168.1.10"
-        es1.vm.provision "shell", inline: "sudo apt-get update -y"
-        es1.vm.provision "shell", inline: "sudo apt-get install -y curl"
-        es1.vm.provision "shell", inline: "sudo apt-get install openjdk-7-jre-headless -y"
-        es1.vm.provision "shell", inline: "sudo wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.0.deb"
-        es1.vm.provision "shell", inline: "sudo dpkg -i elasticsearch-0.90.0.deb"
-        es1.vm.provision "shell", inline: "sudo service elasticsearch start"
+        es1.vm.provision :puppet do |puppet|
+            puppet.module_path = '../setup/modules'
+            puppet.manifests_path = '../setup/manifests'
+            puppet.manifest_file = 'default.pp'
+            puppet.options = '--verbose --debug'
+        end
     end
 
     config.vm.define "es2" do |es2|
         es2.vm.network :hostonly, "192.168.1.11"
-        es2.vm.provision "shell", inline: "sudo apt-get update -y"
-        es2.vm.provision "shell", inline: "sudo apt-get install -y curl"
-        es2.vm.provision "shell", inline: "sudo apt-get install openjdk-7-jre-headless -y"
-        es2.vm.provision "shell", inline: "sudo wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.0.deb"
-        es2.vm.provision "shell", inline: "sudo dpkg -i elasticsearch-0.90.0.deb"
-        es2.vm.provision "shell", inline: "sudo service elasticsearch start"
+        es2.vm.provision :puppet do |puppet|
+            puppet.module_path = '../setup/modules'
+            puppet.manifests_path = '../setup/manifests'
+            puppet.manifest_file = 'default.pp'
+            puppet.options = '--verbose --debug'
+        end
     end
 
     config.vm.define "es3" do |es3|
         es3.vm.network :hostonly, "192.168.1.12"
-        es3.vm.provision "shell", inline: "sudo apt-get update -y"
-        es3.vm.provision "shell", inline: "sudo apt-get install -y curl"
-        es3.vm.provision "shell", inline: "sudo apt-get install openjdk-7-jre-headless -y"
-        es3.vm.provision "shell", inline: "sudo wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.0.deb"
-        es3.vm.provision "shell", inline: "sudo dpkg -i elasticsearch-0.90.0.deb"
-        es3.vm.provision "shell", inline: "sudo service elasticsearch start"
+        es3.vm.provision :puppet do |puppet|
+            puppet.module_path = '../setup/modules'
+            puppet.manifests_path = '../setup/manifests'
+            puppet.manifest_file = 'default.pp'
+            puppet.options = '--verbose --debug'
+        end
     end
 end 
