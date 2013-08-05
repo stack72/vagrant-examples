@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "Ubuntu precise 64 VMWare"
+    config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+    config.vm.network :forwarded_port, guest: 8111, host: 9000
+    config.vm.provision "shell", inline: "sudo apt-get update -y"
+    config.vm.provision "shell", inline: "sudo apt-get install openjdk-7-jre-headless -y"
+    config.vm.provision "shell", inline: "wget http://download.jetbrains.com/teamcity/TeamCity-8.0.1.tar.gz"
+    config.vm.provision "shell", inline: "tar -xvzf TeamCity-8.0.1.tar.gz"
+    config.vm.provision "shell", inline: "export TEAMCITY_DATA_PATH=\"/var/TeamCity/.BuildServer\""
+    config.vm.provision "shell", inline: "sudo mkdir -p /home/vagrant/TeamCity/logs"
+    config.vm.provision "shell", inline: "sudo chown vagrant:vagrant /home/vagrant/TeamCity/ -R"
+    config.vm.provision "shell", inline: "/home/vagrant/TeamCity/bin/teamcity-server.sh start"
+end
